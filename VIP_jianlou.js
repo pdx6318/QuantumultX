@@ -1,4 +1,4 @@
-const myJSESSIONID = '1D422C9FBDA901FB64C632DE2FB14EF1';
+const myJSESSIONID = '111';
 const baseUrl = `http://www.myy2.com/h5/13/common/apply/task/`;
 const method = `POST`;
 const headers = {
