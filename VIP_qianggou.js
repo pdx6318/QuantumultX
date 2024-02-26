@@ -1,5 +1,18 @@
 /*
-还没上传，请等待
+@微信SDQD6318 派大星vip捡漏0.1试用版本
+手动捉包网址http://www.myy2.com/h5/13/common/index.jscw
+把JSESSIONID=填到下面的myJSESSIONID里
+提示 301
+
+undefined
+意思是CK失效 重新抓包就行！如果卡住就划掉后台重新打开圈X点左上角的红字结束运行中的JS
+ID等我发布
+圈叉：
+[task_local]
+#VIP捡漏
+7 1 1 1 * https://raw.githubusercontent.com/362240145/QuantumultX/main/VIP_qianggou.js, tag=VIP捡漏, enabled=true
+本脚本失效日期2024-02-27日24点
+谨防  未来   这个偷家贼！！
 */
 
 const JSESSIONID = '28411E32BED3440527E7F1C29E17C';//这里填上自己的ck
