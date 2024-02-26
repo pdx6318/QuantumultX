@@ -10,7 +10,7 @@ undefined
 [task_local]
 #VIP捡漏
 7 1 1 1 * https://raw.githubusercontent.com/362240145/QuantumultX/main/VIP_jianlou.js, tag=VIP捡漏, enabled=true
-本脚本失效日期2024-02-24日24点
+本脚本失效日期2024-02-26日24点
 谨防  未来   这个偷家贼！！
 */
 const myJSESSIONID = '填在这里';// 设置您的 JSESSIONID 值
