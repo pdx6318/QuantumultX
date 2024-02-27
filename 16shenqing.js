@@ -1,7 +1,8 @@
 
 /**
  * @fileoverview Template to compose HTTP reqeuest.
- * 
+ * 抓包个人中心刷新。找到https://16.16huixuan.com/api/Bag/bagUse
+ 复制ck    账号ID在请求体里面。点进去复制填到脚本里。
 自己抓包一下，跟大熊一样ck也是长期有效不会失效
 脚本有效期2024-05-01
  */
