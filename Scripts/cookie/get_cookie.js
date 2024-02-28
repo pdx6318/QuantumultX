@@ -29,20 +29,20 @@ $done();
 
 function getCookieORToken() {
 
-  
+  
 
   /**
    * VIP 获取cookie
    *
-   * @url https://xxyx-client-api.xiaoxiaoyouxuan.com/my?platform=ios
-   * @keyword fmz200_xxyx_token 打开APP点击“我的”页面获取
+   * @url http://myy2.com/h5/13/userCenter
+   * @keyword pdx_vip_cookie 打开个人中心页面获取
    */
   if (req_url.includes("myy2.com/h5/13/userCenter")) {
     console.log('VIP 开始');
-    const ck = req_headers['JSESSIONID'];
-    console.log("获取到CK：" + ck);
-    
-    $.write(token, '#pdx_vip_ck');
+    const Cookie = req_headers['JSESSIONID'];
+    console.log("获取到Cookie：" + Cookie);
+    
+    $.write(token, '#pdx_vip_Cookie');
     $.notify('VIP_ck 获取成功✅', '', '');
   }
 }
