@@ -39,7 +39,7 @@ function getCookieORToken() {
    */
   if (req_url.includes("myy2.com/h5/13/userCenter")) {
     console.log('VIP 开始');
-    const token = req_headers['JSESSIONID'];
+    const token = req_headers['cookie'];
     console.log("获取到token：" + token);
     
     $.write(token, '#pdx_vip_token');
