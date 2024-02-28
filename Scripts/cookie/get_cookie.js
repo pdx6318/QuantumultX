@@ -2,6 +2,10 @@
  * @author 派大星  pdx
  * @function 获取应用的cookie或token通用脚本
  * @date 2024-02-28 20:30:00
+获取token
+
+^http:\/\/www\.myy2\.com\/h5\/13\/userCenter url script-response-body https://raw.githubusercontent.com/362240145/QuantumultX/main/Scripts/cookie/get_cookie.js
+ 
  */
 
 ////////////////////////////////
