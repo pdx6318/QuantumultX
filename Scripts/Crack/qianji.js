@@ -13,7 +13,7 @@
 
 [rewrite_local]
 #钱迹 ，解锁终身会员
-^https:\/\/api\.qianjiapp\.com\/vip\/configios url script-response-body 492C25BBF661.js
+^https:\/\/api\.qianjiapp\.com\/vip\/configios url script-response-body https://raw.githubusercontent.com/362240145/QuantumultX/main/Scripts/Crack/qianji.js
 
 [mitm]
 hostname = api.qianjiapp.com
