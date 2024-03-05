@@ -1,5 +1,5 @@
 /*
-@微信SDQD6318 派大星vip捡漏0.1试用版本
+@pdx6318 派大星vip捡漏0.1试用版本
 手动捉包网址http://www.myy2.com/h5/13/common/index.jscw
 把JSESSIONID=填到下面的myJSESSIONID里
 提示 301
@@ -10,8 +10,7 @@ undefined
 [task_local]
 #VIP捡漏
 7 1 1 1 * https://raw.githubusercontent.com/362240145/QuantumultX/main/VIP_jianlou.js, tag=VIP捡漏, enabled=true
-本脚本失效日期2024-02-27日24点
-谨防  未来   这个偷家贼！！
+本脚本失效日期2024-02-27日24
 暂时定价88两个月，接受的可以私聊。脚本维护很麻烦，体谅一下，包括vip捡漏和淘大熊抢购脚本
 */
 const myJSESSIONID = '填在这里';// 设置您的 JSESSIONID 值
