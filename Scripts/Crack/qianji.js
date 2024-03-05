@@ -2,9 +2,9 @@
 
 项目名称：钱迹  记账
 下载地址：https://apps.apple.com/cn/app/%E9%92%B1%E8%BF%B9-%E5%AD%98%E9%92%B1%E8%AE%B0%E8%B4%A6%E5%B0%8F%E8%83%BD%E6%89%8B/id1473785373
-电报频道：https://t.me/pdx6318
+电报频道：https://t.me/pdx318
 更新日期：2024-03-06
-脚本作者：派大星 @sdqd6318
+脚本作者：派大星 @pdx6318
 使用声明：⚠️仅供参考，🈲转载与售卖！
 
 解锁终身会员
@@ -13,7 +13,7 @@
 
 [rewrite_local]
 #钱迹 ，解锁终身会员
-^https:\/\/api\.qianjiapp\.com\/vip\/configios url script-response-body https://raw.githubusercontent.com/362240145/QuantumultX/main/Scripts/Crack/qianji.js
+^https:\/\/api\.qianjiapp\.com\/vip\/configios url script-response-body https://raw.githubusercontent.com/pdx6318/QuantumultX/main/Scripts/Crack/qianji.js
 
 [mitm]
 hostname = api.qianjiapp.com
