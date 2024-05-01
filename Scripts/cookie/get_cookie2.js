@@ -17,7 +17,7 @@ const rsp_body = $response ? $response.body : "{}";
 
 // console.log(`当前请求的url: ${req_url}`);
 // 遍历头部对象并打印每个字段和值
-console.log("遍历头部对象并打印每个字段和值开始❇️");
+console.log("遍历头部对象并打印每个字段和值开始❇️，我是派大星");
 for (const headerField in req_headers) {
   console.log(`${headerField}: ${req_headers[headerField]}`);
 }
