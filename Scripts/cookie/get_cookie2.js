@@ -41,21 +41,18 @@ function getCookieORToken() {
    * @url http://myy2.com/h5/17/userCenter
    * @keyword pdx_vip_cookie2 打开个人中心页面获取
    */
-  if (req_url.includes("myy2.com/h5/17/userCenter")) {
-  console.log('VIP 开始');
+    
+if (req_url.includes("myy2.com/h5/13/userCenter")) {
+    console.log('VIP 开始');
 
-  const cookieValue = req_headers["Cookie"];
-  const token = cookieValue;
-
-  if (token) {
+     cookieValue = req_headers["Cookie"];
+    const token = cookieValue;
     console.log("获取到token：" + token);
-    $.write(token, '#pdx_vip_token2');
+    
+    $.write(token, '#pdx_vip_token');
     $.notify('VIPtoken 获取成功✅', '', token);
-  } else {
-    console.log("获取的token为空，不发送通知");
   }
 }
-
 // 将数据字符串解析为对象
 function parseDataString(dataString) {
   let data = {};
