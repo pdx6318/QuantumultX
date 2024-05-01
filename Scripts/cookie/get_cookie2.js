@@ -49,7 +49,7 @@ if (req_url.includes("myy2.com/h5/17/userCenter")) {
     const token = cookieValue;
     console.log("获取到token：" + token);
     
-    $.write(token, '#pdx_vip_token');
+    $.write(token, '#pdx_vip_token2');
     $.notify('VIPtoken 获取成功✅', '', token);
   }
 }
