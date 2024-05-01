@@ -42,7 +42,7 @@ function getCookieORToken() {
    * @keyword pdx_vip_cookie2 打开个人中心页面获取
    */
     
-if (req_url.includes("myy2.com/h5/13/userCenter")) {
+if (req_url.includes("myy2.com/h5/17/userCenter")) {
     console.log('VIP 开始');
 
      cookieValue = req_headers["Cookie"];
