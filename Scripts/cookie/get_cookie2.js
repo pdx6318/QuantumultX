@@ -44,14 +44,17 @@ function getCookieORToken() {
   if (req_url.includes("myy2.com/h5/17/userCenter")) {
     console.log('VIP 开始');
 
-     cookieValue = req_headers["Cookie"];
+    const cookieValue = req_headers["Cookie"];
     const token = cookieValue;
-    console.log("获取到token：" + token);
-    
-    $.write(token, '#pdx_vip_token2');
-    $.notify('VIPtoken 获取成功✅', '', token);
+
+    if (token && token.trim() !== "") {
+        console.log("获取到token：" + token);
+        $.write(token, '#pdx_vip_token2');
+        $.notify('VIPtoken 获取成功✅', '', token);
+    } else {
+        console.log("获取的token为空，不发送通知");
+    }
   }
-}
 
 // 将数据字符串解析为对象
 function parseDataString(dataString) {
