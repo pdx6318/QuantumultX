@@ -48,7 +48,7 @@ if (req_url.includes("myy2.com/h5/17/userCenter")) {
      cookieValue = req_headers["Cookie"];
     const token = cookieValue;
     console.log("获取到token：" + token);
-    if (token !== "undefined") {
+    if (token !== undefined) {
     $.write(token, '#pdx_vip_token2');
     $.notify('VIPtoken 获取成功✅', '', token);
 } else {
