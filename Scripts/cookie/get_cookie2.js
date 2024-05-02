@@ -1,7 +1,7 @@
 /**
  * @author 派大星  pdx
  * @function 获取应用的cookie或token通用脚本
- * @date 2024-04-25 19:00:00
+ * @date 2024-05-02 12:00:00
 获取token
 
 ^http:\/\/www\.myy2\.com\/h5\/17\/userCenter url script-response-body https://raw.githubusercontent.com/362240145/QuantumultX/main/Scripts/cookie/get_cookie2.js
@@ -17,7 +17,7 @@ const rsp_body = $response ? $response.body : "{}";
 
 // console.log(`当前请求的url: ${req_url}`);
 // 遍历头部对象并打印每个字段和值
-console.log("遍历头部对象并打印每个字段和值开始❇️，我是派大星");
+console.log("当前版本20240502\n遍历头部对象并打印每个字段和值开始");
 for (const headerField in req_headers) {
   console.log(`${headerField}: ${req_headers[headerField]}`);
 }
