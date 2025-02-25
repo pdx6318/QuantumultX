@@ -61,7 +61,7 @@ if (req_url.includes("myy2.com/h5/17/userCenter")) {
    * @url ^https:\/\/api\.51fanzan\.com\/golds\/logs\?appid=10001&version=20250218&page=1
 
 hostname = api.51fanzan.com
-   * @keyword pdx_fz_cookie 打开金币明细页面获取
+   * @keyword pdx_fz_cookie 打开我的-金币小镇-我的金币明细页面获取
    */
     
 if (req_url.includes("api.51fanzan.com/golds/logs?appid=10001&version=20250218&page=1")) {
