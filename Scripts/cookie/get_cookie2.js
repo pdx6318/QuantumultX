@@ -55,6 +55,28 @@ if (req_url.includes("myy2.com/h5/17/userCenter")) {
     console.log("获取的token为空");
   }
   }
+  /**
+   * 返赞app 获取token
+   *
+   * @url ^https:\/\/api\.51fanzan\.com\/golds\/logs\?appid=10001&version=20250218&page=1
+
+hostname = api.51fanzan.com
+   * @keyword pdx_fz_cookie 打开金币明细页面获取
+   */
+    
+if (req_url.includes("api.51fanzan.com/golds/logs?appid=10001&version=20250218&page=1")) {
+    console.log('返赞 开始');
+
+     cookieValue = req_headers["token"];
+    const token = cookieValue;
+    console.log("获取到token：" + token);
+    if (token.includes("ey")) {
+    $.write(token, '#pdx_fz_token');
+    $.notify('返赞token 获取成功✅', '', token);
+} else {
+    console.log("获取的token为空");
+  }
+}
 }
 
   
