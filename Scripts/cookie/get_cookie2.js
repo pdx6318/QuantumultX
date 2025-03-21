@@ -77,7 +77,31 @@ if (req_url.includes("api.51fanzan.com/golds/logs?appid=10001&version=20250218&p
     console.log("获取的token为空");
   }
 }
+
+/**
+   * 小程序 幸运锚点 获取token
+   *
+   * @url 
+//hostname :wa.abby-club.com
+//重写链接：^https?:\/\/wa\.abby-club\.com\/api\/PrizeWin\/winnerList
+   * @keyword pdx_xymd_cookie 打开我的-中奖记录页面获取
+   */
+    
+if (req_url.includes("wa.abby-club.com/api/PrizeWin/winnerList")) {
+    console.log('幸运锚点 开始');
+
+    cookieValue = req_headers["auth-token"];
+    const token = cookieValue;
+    console.log("获取到token：" + token);
+    if(token){//判断token不为空 
+        $.write(token, '#pdx_xymd_token');
+        $.notify('幸运锚点token 获取成功✅', '', token);
+    } else {
+        console.log("获取的token为空");
+    }
 }
+}
+
 
   
 // 将数据字符串解析为对象
