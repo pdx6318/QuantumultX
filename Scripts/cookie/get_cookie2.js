@@ -91,39 +91,45 @@ if (req_url.includes("api.51fanzan.com/golds/logs")) {
  * @keyword pdx_16hx_cookie 打开相关页面触发接口获取
  */
 
-if (req_url.includes("6.16huixuan.com/api/UserAmount/index")) {
-    console.log('16惠选 开始处理');
+if ($request.url.includes("6.16huixuan.com/api/UserAmount/index")) {
+    console.log('16会选 开始获取');
 
-    // 1. 提取 PHPSESSID
-    const fullCookie = req_headers["cookie"] || req_headers["Cookie"] || "";
-    let phpsessid = "";
-    
-    // 使用正则精确匹配 PHPSESSID
-    const sessionMatch = fullCookie.match(/PHPSESSID=([^;]+)/);
-    if (sessionMatch && sessionMatch[1]) {
-        phpsessid = sessionMatch[1];
-        console.log("获取到PHPSESSID：" + phpsessid);
-        $.write(phpsessid, '#pdx_16hx_phpsessid');
+    // ========== 1. 从 Cookie 中提取 PHPSESSID ==========
+    const cookie = $request.headers["Cookie"] || $request.headers["cookie"] || "";
+    console.log("原始Cookie：" + cookie);
+
+    const match = cookie.match(/PHPSESSID=([^;]+)/);
+    const token = match ? match[0] : "";  // 结果如 "PHPSESSID=a842fc8bddb1e580785fb95c75eee70e"
+    console.log("提取到token：" + token);
+
+    if (token) {
+        // 圈X 使用 #key 语法写入持久化存储
+        $prefs.setValueForKey(token, 'pdx_sl_token');
+        $notification.post('16会选token 获取成功✅', '', token);
     } else {
-        console.log("未找到有效的PHPSESSID");
+        console.log("❌ Cookie中未找到PHPSESSID");
     }
 
     // 2. 提取 Body 中的 ID
     // 注意：需确保此时 resp_body 已可用（取决于你的框架是否支持响应拦截）
+   // ========== 2. 获取 Request Payload 中的 id ==========
     try {
-        const body = JSON.parse(resp_body);
-        // 常见ID字段路径，请根据实际返回结构调整
-        const userId = body.data?.id || body.data?.userId || body.id || body.userId;
-        
-        if (userId) {
-            console.log("获取到用户ID：" + userId);
-            $.write(String(userId), '#pdx_16hx_user_id');
-            $.notify('16惠选信息获取成功✅', `PHPSESSID: ${phpsessid}`, `用户ID: ${userId}`);
+        if (req_body) {
+            const payload = JSON.parse(req_body);
+            const id = payload.id;
+
+            if (id !== undefined && id !== null) {
+                console.log("获取到id：" + id);
+                $.write(String(id), '#pdx_sl_id');
+                $.notify('16会选id 获取成功✅', '', String(id));
+            } else {
+                console.log("Payload中未找到id字段，完整内容：" + req_body);
+            }
         } else {
-            console.log("Body中未找到ID字段，原始Body：" + resp_body);
+            console.log("⚠️ req_body为空，该请求可能没有Request Payload");
         }
     } catch (e) {
-        console.log("解析响应Body失败：" + e.message);
+        console.log("❌ 解析Payload失败：" + e.message + " | 原始body：" + req_body);
     }
 }
 /**
