@@ -34,9 +34,10 @@ $done();
 
 function getCookieORToken() {
   //////////从下面写代码//////////////////////
-/*搜货获取
-
-
+/*搜货获取账号商品ID必要token
+ @url ^https:\/\/sapph5api\.leqilucky\.com\/NoAuth\/SaleIndex\/SaleProductInfo url script-request-body 你的/lq.js
+ host  sapph5api.leqilucky.com 主机  sapph5api.leqilucky.com
+   #pdx_shjx_token
 */
 if (req_url.includes("sapph5api.leqilucky.com/NoAuth/SaleIndex/SaleProductInfo")) {
   console.log('搜货 开始获取');
