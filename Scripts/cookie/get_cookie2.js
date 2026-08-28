@@ -85,7 +85,7 @@ if (req_url.includes("api.51fanzan.com/golds/logs")) {
 
 
 
-if (req_url.includes("6.16huixuan.com/api/UserAmount/index")) {
+if (req_url.includes("6.16huixuan.com/api/UserAmount")) {
     console.log('16会选 开始获取');
 
     // ========== 1. 从 Cookie 中提取 PHPSESSID ==========
