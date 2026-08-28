@@ -67,7 +67,7 @@ if (req_url.includes("16huixuan.com/api/UserAmount/index")) {
   
   if (msg) $.notify('16会选 获取成功✅', '', msg);
 }
-
+}
   /**
    * VIP 获取cookie
    *
@@ -117,7 +117,9 @@ if (req_url.includes("sapph5api.leqilucky.com/NoAuth/SaleIndex/SaleProductInfo")
   }
 
   if (msg) $.notify('搜货获取成功✅', '', msg);
- 
+   $.write(msg, '#pdx_shjx_token');
+console.log(msg)
+}
 }
   /**
    * 返赞app 获取token
