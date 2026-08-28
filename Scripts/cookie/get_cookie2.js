@@ -77,7 +77,50 @@ if (req_url.includes("api.51fanzan.com/golds/logs")) {
     console.log("获取的token为空");
   }
 }
+/**
+   * 石榴会选 获取token
+   *
+   * @url 6.16huixuan.com/api/UserAmount/index
 
+   * @keyword pdx_sl_cookie 打开我的-余额页面获取
+   */
+
+if (req_url.includes("6.16huixuan.com/api/UserAmount/index")) {
+    console.log('16会选 开始获取');
+
+    // 1. 获取 Token（根据实际header名称调整）
+    const token = req_headers["token"] || req_headers["Authorization"] || "";
+    console.log("获取到token：" + token);
+
+    if (token) {
+        $.write(token, '#pdx_sl_token');
+        $.notify('16会选token 获取成功✅', '', token);
+    } else {
+        console.log("未获取到token");
+    }
+
+    // 2. 获取 Request Payload 中的 id
+    try {
+        if (req_body) {
+            const payload = JSON.parse(req_body);
+            const id = payload.id;
+
+            if (id !== undefined) {
+                console.log("获取到id：" + id);
+                $.write(String(id), '#pdx_sl_id');
+                $.notify('惠选id 获取成功✅', '', String(id));
+            } else {
+                console.log("Payload中未找到id字段，完整内容：" + req_body);
+            }
+        } else {
+            console.log("⚠️ req_body为空，该请求可能没有Request Payload");
+        }
+    } catch (e) {
+        console.log("❌ 解析Payload失败：" + e.message + " | 原始body：" + req_body);
+    }
+}
+
+  
 /**
    * 小程序 幸运锚点 获取token
    *
