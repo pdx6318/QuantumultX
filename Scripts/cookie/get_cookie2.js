@@ -64,7 +64,7 @@ hostname = api.51fanzan.com
    * @keyword pdx_fz_cookie 打开我的-金币小镇-我的金币明细页面获取
    */
     
-if (req_url.includes("api.51fanzan.com/golds/logs?appid=10001&version=20250218&page=1")) {
+if (req_url.includes("api.51fanzan.com/golds/logs")) {
     console.log('返赞 开始');
 
      cookieValue = req_headers["token"];
