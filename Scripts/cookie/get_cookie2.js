@@ -31,11 +31,13 @@ try {
 }
 $done();
 ////////////////////////////////
+
+function getCookieORToken() {
+  //////////从下面写代码//////////////////////
 /*搜货获取
 
 
 */
-function getCookieORToken() {
 if (req_url.includes("sapph5api.leqilucky.com/NoAuth/SaleIndex/SaleProductInfo")) {
   console.log('搜货 开始获取');
 
