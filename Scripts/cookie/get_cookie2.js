@@ -91,6 +91,7 @@ if (req_url.includes("myy2.com/h5/17/userCenter")) {
  /*搜货获取账号商品ID必要token
  @url ^https:\/\/sapph5api\.leqilucky\.com\/NoAuth\/SaleIndex\/SaleProductInfo url script-request-body 你的/lq.js
  host  sapph5api.leqilucky.com
+   #pdx_shjx_token
 */
 function getCookieORToken() {
 if (req_url.includes("sapph5api.leqilucky.com/NoAuth/SaleIndex/SaleProductInfo")) {
