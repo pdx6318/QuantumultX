@@ -83,23 +83,49 @@ if (req_url.includes("api.51fanzan.com/golds/logs")) {
  * @keyword pdx_sl_cookie 打开我的-余额页面获取
  */
 
+/**
+ * 16惠选 获取PHPSESSID及用户ID
+ *
+ * @url ^https:\/\/6\.16huixuan\.com\/api\/UserAmount\/index
+ * hostname = 6.16huixuan.com
+ * @keyword pdx_16hx_cookie 打开相关页面触发接口获取
+ */
+
 if (req_url.includes("6.16huixuan.com/api/UserAmount/index")) {
-    console.log('16会选 开始获取');
+    console.log('16惠选 开始处理');
 
-    // ========== 1. 从 Cookie 中提取 PHPSESSID ==========
-    const cookie = req_headers["Cookie"] || req_headers["cookie"] || "";
-    const match = cookie.match(/PHPSESSID=([^;]+)/);
-    const token = match ? match[0] : "";
-    console.log("获取到token：" + token);
-
-    if (token) {
-        $.write(token, '#pdx_sl_token');
-        $.notify('16会选token 获取成功✅', '', token);
+    // 1. 提取 PHPSESSID
+    const fullCookie = req_headers["cookie"] || req_headers["Cookie"] || "";
+    let phpsessid = "";
+    
+    // 使用正则精确匹配 PHPSESSID
+    const sessionMatch = fullCookie.match(/PHPSESSID=([^;]+)/);
+    if (sessionMatch && sessionMatch[1]) {
+        phpsessid = sessionMatch[1];
+        console.log("获取到PHPSESSID：" + phpsessid);
+        $.write(phpsessid, '#pdx_16hx_phpsessid');
     } else {
-        console.log("获取的token为空");
+        console.log("未找到有效的PHPSESSID");
+    }
+
+    // 2. 提取 Body 中的 ID
+    // 注意：需确保此时 resp_body 已可用（取决于你的框架是否支持响应拦截）
+    try {
+        const body = JSON.parse(resp_body);
+        // 常见ID字段路径，请根据实际返回结构调整
+        const userId = body.data?.id || body.data?.userId || body.id || body.userId;
+        
+        if (userId) {
+            console.log("获取到用户ID：" + userId);
+            $.write(String(userId), '#pdx_16hx_user_id');
+            $.notify('16惠选信息获取成功✅', `PHPSESSID: ${phpsessid}`, `用户ID: ${userId}`);
+        } else {
+            console.log("Body中未找到ID字段，原始Body：" + resp_body);
+        }
+    } catch (e) {
+        console.log("解析响应Body失败：" + e.message);
     }
 }
-    
 /**
    * 小程序 幸运锚点 获取token
    *
