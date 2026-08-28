@@ -33,9 +33,8 @@ $done();
 
 function getCookieORToken() {
 
-/**
- * 16惠选 获取PHPSESSID及用户ID
- * @url ^https:\/\/6\.16huixuan\.com\/api\/UserAmount\/index
+/*
+ * 16惠选 - 获取 PHPSESSID 及用户ID
  * hostname = 6.16huixuan.com
  */
 
@@ -43,34 +42,26 @@ if (req_url.includes("6.16huixuan.com/api/UserAmount/index")) {
     console.log('✅ 16惠选 URL匹配成功');
 
     // 1. 提取 PHPSESSID
-    const fullCookie = req_headers["cookie"] || req_headers["Cookie"] || "";
-    const sessionMatch = fullCookie.match(/PHPSESSID=([^;]+)/);
-    let phpsessid = "";
+    const cookie = req_headers["cookie"] || req_headers["Cookie"] || "";
+    const sidMatch = cookie.match(/PHPSESSID=([^;]+)/);
+    const phpsessid = sidMatch ? sidMatch[1] : "";
 
-    if (sessionMatch && sessionMatch[1]) {
-        phpsessid = sessionMatch[1];
+    if (phpsessid) {
         console.log('✅ PHPSESSID: ' + phpsessid);
         $.write(phpsessid, '#pdx_16hx_phpsessid');
     } else {
-        console.log('❌ 未匹配到PHPSESSID');
+        console.log('❌ 未找到 PHPSESSID');
     }
 
     // 2. 直接从 payload 对象取 ID
-    try {
-        console.log('payload类型: ' + typeof payload);
-        console.log('payload内容: ' + JSON.stringify(payload));
+    const userId = payload?.id;
 
-        const userId = payload?.id;
-
-        if (userId) {
-            console.log('✅ 用户ID: ' + userId);
-            $.write(String(userId), '#pdx_16hx_user_id');
-            $.notify('16惠选信息获取成功✅', `PHPSESSID: ${phpsessid}`, `用户ID: ${userId}`);
-        } else {
-            console.log('❌ payload.id 为空');
-        }
-    } catch (e) {
-        console.log('❌ 提取失败: ' + e.message);
+    if (userId) {
+        console.log('✅ 用户ID: ' + userId);
+        $.write(String(userId), '#pdx_16hx_user_id');
+        $.notify('16惠选信息获取成功 ✅', 'PHPSESSID: ' + phpsessid, '用户ID: ' + userId);
+    } else {
+        console.log('❌ payload.id 为空, payload: ' + JSON.stringify(payload));
     }
 }
 
