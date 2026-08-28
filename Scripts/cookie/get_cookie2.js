@@ -117,7 +117,7 @@ if (req_url.includes("sapph5api.leqilucky.com/NoAuth/SaleIndex/SaleProductInfo")
   }
 
   if (msg) $.notify('搜货获取成功✅', '', msg);
-   console.log('搜货获取成功✅'+msg);
+ 
 }
   /**
    * 返赞app 获取token
