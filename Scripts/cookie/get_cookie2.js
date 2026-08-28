@@ -93,27 +93,32 @@ if (req_url.includes("myy2.com/h5/17/userCenter")) {
  host  sapph5api.leqilucky.com
    #pdx_shjx_token
 */
+/*搜货获取*/
 function getCookieORToken() {
-if (req_url.includes("sapph5api.leqilucky.com/NoAuth/SaleIndex/SaleProductInfo")) {
-  console.log('搜货 开始获取');
+  if (req_url.includes("sapph5api.leqilucky.com/NoAuth/SaleIndex/SaleProductInfo")) {
+    console.log('搜货 开始获取');
 
-  function getQuery(name) {
-    const reg = new RegExp("[?&]" + name + "=([^&]+)");
-    const m = req_url.match(reg);
-    return m ? decodeURIComponent(m[1]) : "";
+    function getQuery(name) {
+      const reg = new RegExp("[?&]" + name + "=([^&]+)");
+      const m = req_url.match(reg);
+      return m ? decodeURIComponent(m[1]) : "";
+    }
+
+    const query = req_url.split("?")[1] || "";
+
+    let msg = '';
+    if (query) {
+      $.write(query, '#pdx_lq_query');
+      msg = 'uname=' + getQuery("uname") + '&ukey=' + getQuery("ukey") + '&tokenid=' + getQuery("tokenid") + '&productID=' + getQuery("productID");
+    }
+
+    // ✅ 新增：当 msg 有效时，写入 token 并打印日志
+    if (msg) {
+      $.write(msg, '#pdx_shjx_token');
+      console.log("搜货获取写入token成功: " + msg);
+      $.notify('搜货获取成功✅', '', msg);
+    }
   }
-
-  const query = req_url.split("?")[1] || "";
-
-  let msg = '';
-  if (query) {
-    $.write(query, '#pdx_lq_query');
-    msg = 'uname=' + getQuery("uname") + '&ukey=' + getQuery("ukey") + '&tokenid=' + getQuery("tokenid") + '&productID=' + getQuery("productID");
-  }
-
-  if (msg) $.notify('搜货获取成功✅', '', msg);
-    $.write(msg, '#pdx_shjx_token');
-   console.log("搜货获取写入token成功:  " + msg);
 }
   /**
    * 返赞app 获取token
