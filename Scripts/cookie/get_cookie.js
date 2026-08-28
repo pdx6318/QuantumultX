@@ -33,35 +33,29 @@ $done();
 
 function getCookieORToken() {
 
-/*
- * 16惠选 - 获取 PHPSESSID 及用户ID
- * hostname = 6.16huixuan.com
+/**
+ * 石榴会选 获取token(PHPSESSID) + id
+ * @url ^https:\/\/6\.16huixuan\.com\/api\/UserAmount\/index
+ * @keyword pdx_sl_cookie 打开我的-余额页面获取
  */
 
-/*
- * 16惠选 - 获取 PHPSESSID 及用户ID
- * hostname = 6.16huixuan.com
- */
+if ($request.url.includes("6.16huixuan.com/api/UserAmount/index")) {
+    console.log('16会选 开始获取');
 
-const url = $request.url;
-const headers = $request.headers;
-const body = $request.body;
+    // ========== 1. 从 Cookie 中提取 PHPSESSID ==========
+    const cookie = $request.headers["Cookie"] || $request.headers["cookie"] || "";
+    console.log("原始Cookie：" + cookie);
 
-console.log('body类型: ' + typeof body);
-console.log('body内容: ' + String(body).substring(0, 200));
+    const match = cookie.match(/PHPSESSID=([^;]+)/);
+    const token = match ? match[0] : "";  // 结果如 "PHPSESSID=a842fc8bddb1e580785fb95c75eee70e"
+    console.log("提取到token：" + token);
 
-if (url.includes("6.16huixuan.com/api/UserAmount/index")) {
-
-    // 1. 提取 PHPSESSID
-    const cookie = headers["Cookie"] || headers["cookie"] || "";
-    const sidMatch = cookie.match(/PHPSESSID=([^;]+)/);
-    const phpsessid = sidMatch ? sidMatch[1] : "";
-
-    if (phpsessid) {
-        console.log('✅ PHPSESSID: ' + phpsessid);
-        $prefs.setValueForKey(phpsessid, 'pdx_16hx_phpsessid');
+    if (token) {
+        // 圈X 使用 #key 语法写入持久化存储
+        $prefs.setValueForKey(token, 'pdx_sl_token');
+        $notification.post('16会选token 获取成功✅', '', token);
     } else {
-        console.log('❌ 未找到 PHPSESSID');
+        console.log("❌ Cookie中未找到PHPSESSID");
     }
 
     // 2. 从请求体提取 ID
