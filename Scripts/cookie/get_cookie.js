@@ -36,45 +36,44 @@ function getCookieORToken() {
 
 /**
  * 16惠选 获取PHPSESSID及用户ID
- *
  * @url ^https:\/\/6\.16huixuan\.com\/api\/UserAmount\/index
  * hostname = 6.16huixuan.com
- * @keyword pdx_16hx_cookie 打开相关页面触发接口获取
  */
 
 if (req_url.includes("6.16huixuan.com/api/UserAmount/index")) {
-    console.log('16惠选 开始处理');
+    console.log('✅ 16惠选 URL匹配成功');
 
     // 1. 提取 PHPSESSID
     const fullCookie = req_headers["cookie"] || req_headers["Cookie"] || "";
-    let phpsessid = "";
-    
-    // 使用正则精确匹配 PHPSESSID
     const sessionMatch = fullCookie.match(/PHPSESSID=([^;]+)/);
+    let phpsessid = "";
+
     if (sessionMatch && sessionMatch[1]) {
         phpsessid = sessionMatch[1];
-        console.log("获取到PHPSESSID：" + phpsessid);
+        console.log('✅ PHPSESSID: ' + phpsessid);
         $.write(phpsessid, '#pdx_16hx_phpsessid');
     } else {
-        console.log("未找到有效的PHPSESSID");
+        console.log('❌ 未匹配到PHPSESSID');
     }
 
-    // 2. 提取 Body 中的 ID
-    // 注意：需确保此时 resp_body 已可用（取决于你的框架是否支持响应拦截）
+    // 2. 从请求 payload 中提取 ID
     try {
-        const body = JSON.parse(resp_body);
-        // 常见ID字段路径，请根据实际返回结构调整
-        const userId = body.data?.id || body.data?.userId || body.id || body.userId;
-        
+        const payload = JSON.parse(req_body);
+        console.log('payload内容: ' + JSON.stringify(payload));
+
+        // ⚠️ 根据实际payload结构调整下面的路径
+        const userId = payload.id || payload.userId || payload.data?.id || payload.data?.userId;
+
         if (userId) {
-            console.log("获取到用户ID：" + userId);
+            console.log('✅ 用户ID: ' + userId);
             $.write(String(userId), '#pdx_16hx_user_id');
             $.notify('16惠选信息获取成功✅', `PHPSESSID: ${phpsessid}`, `用户ID: ${userId}`);
         } else {
-            console.log("Body中未找到ID字段，原始Body：" + resp_body);
+            console.log('❌ payload中未找到ID，请检查上方打印的payload结构');
         }
     } catch (e) {
-        console.log("解析响应Body失败：" + e.message);
+        console.log('❌ 解析payload失败: ' + e.message);
+        console.log('req_body原文: ' + String(req_body).substring(0, 300));
     }
 }
 
