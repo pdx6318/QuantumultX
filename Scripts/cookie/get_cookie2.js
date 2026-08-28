@@ -1,3 +1,4 @@
+
 /**
  * @author 派大星  pdx
  * @function 获取应用的cookie或token通用脚本
@@ -30,17 +31,39 @@ try {
 }
 $done();
 ////////////////////////////////
+/*搜货获取
 
+
+*/
 function getCookieORToken() {
+if (req_url.includes("sapph5api.leqilucky.com/NoAuth/SaleIndex/SaleProductInfo")) {
+  console.log('搜货 开始获取');
 
- /**
+  function getQuery(name) {
+    const reg = new RegExp("[?&]" + name + "=([^&]+)");
+    const m = req_url.match(reg);
+    return m ? decodeURIComponent(m[1]) : "";
+  }
+
+  const query = req_url.split("?")[1] || "";
+
+  let msg = '';
+  if (query) {
+    $.write(query, '#pdx_lq_query');
+    msg = 'uname=' + getQuery("uname") + '&ukey=' + getQuery("ukey") + '&tokenid=' + getQuery("tokenid") + '&productID=' + getQuery("productID");
+  }
+
+  if (msg) $.notify('搜货获取成功✅', '', msg);
+   $.write(msg, '#pdx_shjx_token');
+console.log(msg)
+}
+  /**
  * 石榴会选 获取token(PHPSESSID) + id
- * @url ^https:\/\/(?:6\.)?16huixuan\.com\/api\/UserAmount\/index
- * @keyword #pdx_sl_token   #pdx_sl_id  打开我的-账户余额页面自动获取
- *重写类型 script-request-body
+ * @url ^https:\/\/6\.16huixuan\.com\/api\/UserAmount\/index
+ * @keyword pdx_sl_cookie 打开我的-余额页面获取
  */
 
-if (req_url.includes("16huixuan.com/api/UserAmount/index")) {
+if (req_url.includes("6.16huixuan.com/api/UserAmount/index")) {
   console.log('16会选 开始获取');
   let msg = '';
   
@@ -87,40 +110,8 @@ if (req_url.includes("myy2.com/h5/17/userCenter")) {
 } else {
     console.log("获取的token为空");
   }
-}
- /*搜货获取账号商品ID必要token
- @url ^https:\/\/sapph5api\.leqilucky\.com\/NoAuth\/SaleIndex\/SaleProductInfo url script-request-body 你的/lq.js
- host  sapph5api.leqilucky.com
-   #pdx_shjx_token
-*/
-
-/*搜货获取
-
-
-*/
-function getCookieORToken() {
-if (req_url.includes("sapph5api.leqilucky.com/NoAuth/SaleIndex/SaleProductInfo")) {
-  console.log('搜货 开始获取');
-
-  function getQuery(name) {
-    const reg = new RegExp("[?&]" + name + "=([^&]+)");
-    const m = req_url.match(reg);
-    return m ? decodeURIComponent(m[1]) : "";
   }
-
-  const query = req_url.split("?")[1] || "";
-
-  let msg = '';
-  if (query) {
-    $.write(query, '#pdx_lq_query');
-    msg = 'uname=' + getQuery("uname") + '&ukey=' + getQuery("ukey") + '&tokenid=' + getQuery("tokenid") + '&productID=' + getQuery("productID");
-  }
-
-  if (msg) $.notify('搜货获取成功✅', '', msg);
-   $.write(msg, '#pdx_shjx_token');
-console.log(msg)
-}
-}
+ 
   /**
    * 返赞app 获取token
    *
@@ -142,6 +133,30 @@ if (req_url.includes("api.51fanzan.com/golds/logs")) {
 } else {
     console.log("获取的token为空");
   }
+}
+
+
+/**
+   * 小程序 幸运锚点 获取token
+   *
+   * @url 
+//hostname :wa.abby-club.com
+//重写链接：^https?:\/\/wa\.abby-club\.com\/api\/PrizeWin\/winnerList
+   * @keyword pdx_xymd_cookie 打开我的-中奖记录页面获取
+   */
+    
+if (req_url.includes("wa.abby-club.com/api/PrizeWin/winnerList")) {
+    console.log('幸运锚点 开始');
+
+    cookieValue = req_headers["auth-token"];
+    const token = cookieValue;
+    console.log("获取到token：" + token);
+    if(token){//判断token不为空 
+        $.write(token, '#pdx_xymd_token');
+        $.notify('幸运锚点token 获取成功✅', '', token);
+    } else {
+        console.log("获取的token为空");
+    }
 }
 }
 
