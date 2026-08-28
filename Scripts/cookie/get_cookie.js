@@ -65,22 +65,27 @@ if (url.includes("6.16huixuan.com/api/UserAmount/index")) {
     }
 
     // 2. 从请求体提取 ID
+   // ========== 2. 获取 Request Payload 中的 id ==========
     try {
-        const data = JSON.parse(body);
-        const userId = data.id;
+        const body = $request.body;
+        if (body) {
+            const payload = JSON.parse(body);
+            const id = payload.id;
 
-        if (userId) {
-            console.log('✅ 用户ID: ' + userId);
-            $prefs.setValueForKey(String(userId), 'pdx_16hx_user_id');
-            $notify('16惠选 ✅', 'PHPSESSID: ' + phpsessid, '用户ID: ' + userId);
+            if (id !== undefined) {
+                console.log("获取到id：" + id);
+                $persistentStore.write(String(id), '#pdx_sl_id');
+                $notification.post('16会选id 获取成功✅', '', String(id));
+            } else {
+                console.log("Payload中未找到id字段，完整内容：" + body);
+            }
         } else {
-            console.log('❌ body 中无 id 字段, keys: ' + Object.keys(data));
+            console.log("⚠️ $request.body为空，该请求可能没有Request Payload");
         }
     } catch (e) {
-        console.log('❌ 解析失败: ' + e.message);
+        console.log("❌ 解析Payload失败：" + e.message + " | 原始body：" + $request.body);
     }
 }
-
 $done({});
 
 // 将数据字符串解析为对象
