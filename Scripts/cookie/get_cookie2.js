@@ -64,7 +64,7 @@ if (req_url.includes("6.16huixuan.com/api/UserAmount/index")) {
         if (body) {
             const payload = JSON.parse(body);
             const id = payload.id;
-
+ console.log("测试boy" + body);
             if (id !== undefined) {
                 console.log("获取到id：" + id);
                 $persistentStore.write(String(id), '#pdx_sl_id');
