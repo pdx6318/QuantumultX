@@ -67,7 +67,7 @@ if (req_url.includes("16huixuan.com/api/UserAmount/index")) {
   
   if (msg) $.notify('16会选 获取成功✅', '', msg);
 }
-}
+
   /**
    * VIP 获取cookie
    *
@@ -87,7 +87,7 @@ if (req_url.includes("myy2.com/h5/17/userCenter")) {
 } else {
     console.log("获取的token为空");
   }
-  }
+}
  /*搜货获取账号商品ID必要token
  @url ^https:\/\/sapph5api\.leqilucky\.com\/NoAuth\/SaleIndex\/SaleProductInfo url script-request-body 你的/lq.js
  host  sapph5api.leqilucky.com
