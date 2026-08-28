@@ -81,24 +81,23 @@ if (req_url.includes("api.51fanzan.com/golds/logs")) {
    * 石榴会选 获取token
    *
    * @url 6.16huixuan.com/api/UserAmount/index
-
+   *https://6.16huixuan.com/api/UserAmount/index
    * @keyword pdx_sl_cookie 打开我的-余额页面获取
    */
 
 if (req_url.includes("6.16huixuan.com/api/UserAmount/index")) {
     console.log('16会选 开始获取');
 
-    // 1. 获取 Token（根据实际header名称调整）
-    const token = req_headers["token"] || req_headers["Authorization"] || "";
+     cookieValue = req_headers["token"];
+    const token = cookieValue;
     console.log("获取到token：" + token);
-
-    if (token) {
-        $.write(token, '#pdx_sl_token');
-        $.notify('16会选token 获取成功✅', '', token);
-    } else {
-        console.log("未获取到token");
-    }
-
+    if (token.includes("PHPSESSID")) {
+    $.write(token, '#pdx_sl_token');
+    $.notify('16会选token 获取成功✅', '', token);
+} else {
+    console.log("获取的token为空");
+  }
+}
     // 2. 获取 Request Payload 中的 id
     try {
         if (req_body) {
