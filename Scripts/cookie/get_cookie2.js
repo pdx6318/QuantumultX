@@ -40,7 +40,7 @@ function getCookieORToken() {
  *重写类型 script-request-body
  */
 
-if (req_url.includes("6.16huixuan.com/api/UserAmount/index")) {
+if (req_url.includes("16huixuan.com/api/UserAmount/index")) {
   console.log('16会选 开始获取');
   let msg = '';
   
