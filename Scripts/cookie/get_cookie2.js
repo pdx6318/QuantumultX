@@ -52,29 +52,30 @@ if (req_url.includes("6.16huixuan.com/api/UserAmount/index")) {
 
     if (token) {
         // 圈X 使用 #key 语法写入持久化存储
-        $prefs.setValueForKey(token, 'pdx_sl_token');
+            $.write(token, '#pdx_sl_token');
             $.notify('16会选token 获取成功✅', '', token);
     } else {
         console.log("❌ Cookie中未找到PHPSESSID");
     }
-// ========== 2. 获取 Request Payload 中的 id ==========
+   // ========== 2. 获取 Request Payload 中的 id ==========
     try {
-        if (req_body) {
-            const payload = JSON.parse(req_body);
+        const body = $request.body;
+        if (body) {
+            const payload = JSON.parse(body);
             const id = payload.id;
 
-            if (id !== undefined && id !== null) {
+            if (id !== undefined) {
                 console.log("获取到id：" + id);
-                $.write(String(id), '#pdx_sl_id');
-                $.notify('16会选id 获取成功✅', '', String(id));
+               $.write(String(id), '#pdx_sl_id');
+               $.notify('16会选id 获取成功✅', '', String(id));
             } else {
-                console.log("Payload中未找到id字段，完整内容：" + req_body);
+                console.log("Payload中未找到id字段，完整内容：" + body);
             }
         } else {
-            console.log("⚠️ req_body为空，该请求可能没有Request Payload");
+            console.log("⚠️ $request.body为空，该请求可能没有Request Payload");
         }
     } catch (e) {
-        console.log("❌ 解析Payload失败：" + e.message + " | 原始body：" + req_body);
+        console.log("❌ 解析Payload失败：" + e.message + " | 原始body：" + $request.body);
     }
 }
   /**
