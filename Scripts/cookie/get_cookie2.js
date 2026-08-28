@@ -33,52 +33,41 @@ $done();
 
 function getCookieORToken() {
 
-  /**
+    /**
  * 石榴会选 获取token(PHPSESSID) + id
  * @url ^https:\/\/6\.16huixuan\.com\/api\/UserAmount\/index
- * @keyword pdx_sl_cookie 打开我的-余额页面获取
+ * @keyword #pdx_sl_token   #pdx_sl_id  打开我的-账户余额页面自动获取
+ *重写类型 script-request-body
  */
 
 if (req_url.includes("6.16huixuan.com/api/UserAmount/index")) {
-    console.log('16会选 开始获取');
-
-    // ========== 1. 从 Cookie 中提取 PHPSESSID ==========
-    const cookie = $request.headers["Cookie"] || $request.headers["cookie"] || "";
-    console.log("原始Cookie：" + cookie);
-
-    const match = cookie.match(/PHPSESSID=([^;]+)/);
-    const token = match ? match[0] : "";  // 结果如 "PHPSESSID=a842fc8bddb1e580785fb95c75eee70e"
-    console.log("提取到token：" + token);
-
-    if (token) {
-        // 圈X 使用 #key 语法写入持久化存储
-            $.write(token, '#pdx_sl_token');
-            $.notify('16会选token 获取成功✅', '', token);
-    } else {
-        console.log("❌ Cookie中未找到PHPSESSID");
+  console.log('16会选 开始获取');
+  let msg = '';
+  
+  // 1. Cookie中的PHPSESSID
+  const cookie = $request.headers["Cookie"] || $request.headers["cookie"] || "";
+  const m = cookie.match(/PHPSESSID=[^;]+/);
+  if (m) {
+    $.write(m[0], '#pdx_sl_token');
+    msg += 'token:' + m[0].replace('PHPSESSID=', '');
+  }
+  
+  // 2. 请求体中的id
+  try {
+    let b = $request.body;
+    if (typeof b !== 'string') b = JSON.stringify(b);
+    const id = JSON.parse(b).id;
+    if (id != null) {
+      $.write(String(id), '#pdx_sl_id');
+      msg += (msg ? ' | ' : '') + 'id:' + id;
     }
- 
-       // ========== 2. 获取 Request Payload 中的 id ==========
-    try {
-        const body = $request.body;
-        if (body) {
-            const payload = JSON.parse(body);
-            const id = payload.id;
- console.log("测试boy" + body);
-            if (id !== undefined) {
-                console.log("获取到id：" + id);
-                $persistentStore.write(String(id), '#pdx_sl_id');
-                $notification.post('16会选id 获取成功✅', '', String(id));
-            } else {
-                console.log("Payload中未找到id字段，完整内容：" + body);
-            }
-        } else {
-            console.log("⚠️ $request.body为空，该请求可能没有Request Payload");
-        }
-    } catch (e) {
-        console.log("❌ 解析Payload失败：" + e.message + " | 原始body：" + $request.body);
-    }
+  } catch(e) {
+    console.log("id解析失败:" + e.message);
+  }
+  
+  if (msg) $.notify('16会选 获取成功✅', '', msg);
 }
+
   /**
    * VIP 获取cookie
    *
