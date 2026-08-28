@@ -33,7 +33,6 @@ $done();
 
 function getCookieORToken() {
 
-
 /**
  * 16惠选 获取PHPSESSID及用户ID
  * @url ^https:\/\/6\.16huixuan\.com\/api\/UserAmount\/index
@@ -56,20 +55,22 @@ if (req_url.includes("6.16huixuan.com/api/UserAmount/index")) {
         console.log('❌ 未匹配到PHPSESSID');
     }
 
-    // 2. 直接从 payload 对象中提取 ID（不再解析 req_body）
+    // 2. 直接从 payload 对象取 ID
     try {
-        // payload 已经是对象，直接使用
-        const userId = payload?.id || payload?.userId || payload?.data?.id;
+        console.log('payload类型: ' + typeof payload);
+        console.log('payload内容: ' + JSON.stringify(payload));
+
+        const userId = payload?.id;
 
         if (userId) {
             console.log('✅ 用户ID: ' + userId);
             $.write(String(userId), '#pdx_16hx_user_id');
             $.notify('16惠选信息获取成功✅', `PHPSESSID: ${phpsessid}`, `用户ID: ${userId}`);
         } else {
-            console.log('❌ payload中未找到ID，payload keys: ' + JSON.stringify(Object.keys(payload)));
+            console.log('❌ payload.id 为空');
         }
     } catch (e) {
-        console.log('❌ 提取ID失败: ' + e.message);
+        console.log('❌ 提取失败: ' + e.message);
     }
 }
 
