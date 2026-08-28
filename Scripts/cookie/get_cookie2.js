@@ -83,15 +83,9 @@ if (req_url.includes("api.51fanzan.com/golds/logs")) {
  * @keyword pdx_sl_cookie 打开我的-余额页面获取
  */
 
-/**
- * 16惠选 获取PHPSESSID及用户ID
- *
- * @url ^https:\/\/6\.16huixuan\.com\/api\/UserAmount\/index
- * hostname = 6.16huixuan.com
- * @keyword pdx_16hx_cookie 打开相关页面触发接口获取
- */
 
-if ($request.url.includes("6.16huixuan.com/api/UserAmount/index")) {
+
+if (req_url.includes("6.16huixuan.com/api/UserAmount/index")) {
     console.log('16会选 开始获取');
 
     // ========== 1. 从 Cookie 中提取 PHPSESSID ==========
@@ -105,7 +99,7 @@ if ($request.url.includes("6.16huixuan.com/api/UserAmount/index")) {
     if (token) {
         // 圈X 使用 #key 语法写入持久化存储
         $prefs.setValueForKey(token, 'pdx_sl_token');
-        $notification.post('16会选token 获取成功✅', '', token);
+        $.notify('16会选token 获取成功✅', '', token);
     } else {
         console.log("❌ Cookie中未找到PHPSESSID");
     }
