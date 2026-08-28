@@ -33,7 +33,7 @@ $done();
 
 function getCookieORToken() {
 
-    /**
+ /**
  * 石榴会选 获取token(PHPSESSID) + id
  * @url ^https:\/\/(?:6\.)?16huixuan\.com\/api\/UserAmount\/index
  * @keyword #pdx_sl_token   #pdx_sl_id  打开我的-账户余额页面自动获取
