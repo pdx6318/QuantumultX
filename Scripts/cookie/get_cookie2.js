@@ -57,7 +57,7 @@ if (req_url.includes("6.16huixuan.com/api/UserAmount/index")) {
     } else {
         console.log("❌ Cookie中未找到PHPSESSID");
     }
-   // ========== 2. 获取 Request Payload 中的 id ==========
+ // ========== 2. 获取 Request Payload 中的 id ==========
     try {
         const body = $request.body;
         if (body) {
@@ -66,16 +66,16 @@ if (req_url.includes("6.16huixuan.com/api/UserAmount/index")) {
 
             if (id !== undefined) {
                 console.log("获取到id：" + id);
-               $.write(String(id), '#pdx_sl_id');
-               $.notify('16会选id 获取成功✅', '', String(id));
+                $prefs.setValueForKey(String(id), 'pdx_sl_id');
+                $notification.post('16会选id 获取成功✅', '', String(id));
             } else {
                 console.log("Payload中未找到id字段，完整内容：" + body);
             }
         } else {
-            console.log("⚠️ $request.body为空，该请求可能没有Request Payload");
+            console.log("⚠️ $request.body为空");
         }
     } catch (e) {
-        console.log("❌ 解析Payload失败：" + e.message + " | 原始body：" + $request.body);
+        console.log("❌ 解析Payload失败：" + e.message);
     }
 }
   /**
