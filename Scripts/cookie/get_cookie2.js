@@ -35,7 +35,7 @@ function getCookieORToken() {
 
     /**
  * 石榴会选 获取token(PHPSESSID) + id
- * @url ^https:\/\/6\.16huixuan\.com\/api\/UserAmount\/index
+ * @url ^https:\/\/(?:6\.)?16huixuan\.com\/api\/UserAmount\/index
  * @keyword #pdx_sl_token   #pdx_sl_id  打开我的-账户余额页面自动获取
  *重写类型 script-request-body
  */
@@ -88,7 +88,32 @@ if (req_url.includes("myy2.com/h5/17/userCenter")) {
     console.log("获取的token为空");
   }
   }
- 
+ /*搜货获取账号商品ID必要token
+ @url ^https:\/\/sapph5api\.leqilucky\.com\/NoAuth\/SaleIndex\/SaleProductInfo url script-request-body 你的/lq.js
+ host  sapph5api.leqilucky.com
+*/
+function getCookieORToken() {
+if (req_url.includes("sapph5api.leqilucky.com/NoAuth/SaleIndex/SaleProductInfo")) {
+  console.log('搜货 开始获取');
+
+  function getQuery(name) {
+    const reg = new RegExp("[?&]" + name + "=([^&]+)");
+    const m = req_url.match(reg);
+    return m ? decodeURIComponent(m[1]) : "";
+  }
+
+  const query = req_url.split("?")[1] || "";
+
+  let msg = '';
+  if (query) {
+    $.write(query, '#pdx_lq_query');
+    msg = 'uname=' + getQuery("uname") + '&ukey=' + getQuery("ukey") + '&tokenid=' + getQuery("tokenid") + '&productID=' + getQuery("productID");
+  }
+
+  if (msg) $.notify('搜货获取成功✅', '', msg);
+    $.write(msg, '#pdx_shjx_token');
+   console.log("搜货获取写入token成功:  " + msg);
+}
   /**
    * 返赞app 获取token
    *
