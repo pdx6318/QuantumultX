@@ -33,72 +33,48 @@ $done();
 
 function getCookieORToken() {
 
-  /**
- * 石榴会选 获取token(PHPSESSID) + id
+
+/**
+ * 16惠选 获取PHPSESSID及用户ID
+ *
  * @url ^https:\/\/6\.16huixuan\.com\/api\/UserAmount\/index
- * @keyword pdx_sl_cookie 打开我的-余额页面获取
+ * hostname = 6.16huixuan.com
+ * @keyword pdx_16hx_cookie 打开相关页面触发接口获取
  */
 
-if ($request.url.includes("6.16huixuan.com/api/UserAmount/index")) {
-    console.log('16会选 开始获取');
+if (req_url.includes("6.16huixuan.com/api/UserAmount/index")) {
+    console.log('16惠选 开始处理');
 
-    // ========== 1. 从 Cookie 中提取 PHPSESSID ==========
-    const cookie = $request.headers["Cookie"] || $request.headers["cookie"] || "";
-    const match = cookie.match(/PHPSESSID=([^;]+)/);
-    const token = match ? match[0] : "";
-    console.log("提取到token：" + token);
-
-    if (token) {
-        // ✅ 使用 #key 语法，这是圈X最通用的持久化存储方式
-        $done({ 
-            // 部分场景下通过 $done 传参不可靠，改用下方通知确认即可
-        });
-        // 直接写入本地缓存
-        try {
-            // 优先尝试 $prefs
-            if (typeof $prefs !== 'undefined') {
-                $prefs.setValueForKey(token, 'pdx_sl_token');
-            } else if (typeof $persistentStore !== 'undefined') {
-                $persistentStore.write(token, 'pdx_sl_token');
-            }
-        } catch(e) {
-            console.log("⚠️ token存储异常(不影响获取): " + e.message);
-        }
-        $notification.post('16会选token 获取成功✅', '', token);
+    // 1. 提取 PHPSESSID
+    const fullCookie = req_headers["cookie"] || req_headers["Cookie"] || "";
+    let phpsessid = "";
+    
+    // 使用正则精确匹配 PHPSESSID
+    const sessionMatch = fullCookie.match(/PHPSESSID=([^;]+)/);
+    if (sessionMatch && sessionMatch[1]) {
+        phpsessid = sessionMatch[1];
+        console.log("获取到PHPSESSID：" + phpsessid);
+        $.write(phpsessid, '#pdx_16hx_phpsessid');
     } else {
-        console.log("❌ Cookie中未找到PHPSESSID");
+        console.log("未找到有效的PHPSESSID");
     }
 
-    // ========== 2. 获取 Request Payload 中的 id ==========
+    // 2. 提取 Body 中的 ID
+    // 注意：需确保此时 resp_body 已可用（取决于你的框架是否支持响应拦截）
     try {
-        const body = $request.body;
-        console.log("原始body类型：" + typeof body + " | 内容：" + body);
-
-        if (body) {
-            // ✅ 兼容处理：body可能是字符串或已解析的对象
-            const payload = (typeof body === 'string') ? JSON.parse(body) : body;
-            const id = payload.id;
-
-            if (id !== undefined && id !== null) {
-                console.log("✅ 成功获取到id：" + id);
-                try {
-                    if (typeof $prefs !== 'undefined') {
-                        $prefs.setValueForKey(String(id), 'pdx_sl_id');
-                    } else if (typeof $persistentStore !== 'undefined') {
-                        $persistentStore.write(String(id), 'pdx_sl_id');
-                    }
-                } catch(e) {
-                    console.log("⚠️ id存储异常(不影响获取): " + e.message);
-                }
-                $notification.post('16会选id 获取成功✅', '', String(id));
-            } else {
-                console.log("❌ Payload中id字段为空，完整payload：" + JSON.stringify(payload));
-            }
+        const body = JSON.parse(resp_body);
+        // 常见ID字段路径，请根据实际返回结构调整
+        const userId = body.data?.id || body.data?.userId || body.id || body.userId;
+        
+        if (userId) {
+            console.log("获取到用户ID：" + userId);
+            $.write(String(userId), '#pdx_16hx_user_id');
+            $.notify('16惠选信息获取成功✅', `PHPSESSID: ${phpsessid}`, `用户ID: ${userId}`);
         } else {
-            console.log("⚠️ $request.body 为空");
+            console.log("Body中未找到ID字段，原始Body：" + resp_body);
         }
     } catch (e) {
-        console.log("❌ 解析Payload失败：" + e.message + " | 原始body：" + $request.body);
+        console.log("解析响应Body失败：" + e.message);
     }
 }
 
