@@ -94,6 +94,10 @@ if (req_url.includes("myy2.com/h5/17/userCenter")) {
    #pdx_shjx_token
 */
 
+/*搜货获取
+
+
+*/
 function getCookieORToken() {
 if (req_url.includes("sapph5api.leqilucky.com/NoAuth/SaleIndex/SaleProductInfo")) {
   console.log('搜货 开始获取');
@@ -113,6 +117,7 @@ if (req_url.includes("sapph5api.leqilucky.com/NoAuth/SaleIndex/SaleProductInfo")
   }
 
   if (msg) $.notify('搜货获取成功✅', '', msg);
+   console.log('搜货获取成功✅'+msg);
 }
   /**
    * 返赞app 获取token
