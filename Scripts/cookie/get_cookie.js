@@ -56,24 +56,20 @@ if (req_url.includes("6.16huixuan.com/api/UserAmount/index")) {
         console.log('❌ 未匹配到PHPSESSID');
     }
 
-    // 2. 从请求 payload 中提取 ID
+    // 2. 直接从 payload 对象中提取 ID（不再解析 req_body）
     try {
-        const payload = JSON.parse(req_body);
-        console.log('payload内容: ' + JSON.stringify(payload));
-
-        // ⚠️ 根据实际payload结构调整下面的路径
-        const userId = payload.id || payload.userId || payload.data?.id || payload.data?.userId;
+        // payload 已经是对象，直接使用
+        const userId = payload?.id || payload?.userId || payload?.data?.id;
 
         if (userId) {
             console.log('✅ 用户ID: ' + userId);
             $.write(String(userId), '#pdx_16hx_user_id');
             $.notify('16惠选信息获取成功✅', `PHPSESSID: ${phpsessid}`, `用户ID: ${userId}`);
         } else {
-            console.log('❌ payload中未找到ID，请检查上方打印的payload结构');
+            console.log('❌ payload中未找到ID，payload keys: ' + JSON.stringify(Object.keys(payload)));
         }
     } catch (e) {
-        console.log('❌ 解析payload失败: ' + e.message);
-        console.log('req_body原文: ' + String(req_body).substring(0, 300));
+        console.log('❌ 提取ID失败: ' + e.message);
     }
 }
 
