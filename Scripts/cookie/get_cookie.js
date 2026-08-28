@@ -80,7 +80,7 @@ if ($request.url.includes("6.16huixuan.com/api/UserAmount/index")) {
         console.log("❌ 解析Payload失败：" + e.message + " | 原始body：" + $request.body);
     }
 }
-$done({});
+
 
 // 将数据字符串解析为对象
 function parseDataString(dataString) {
