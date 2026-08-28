@@ -83,44 +83,40 @@ if (req_url.includes("api.51fanzan.com/golds/logs")) {
  * @keyword pdx_sl_cookie 打开我的-余额页面获取
  */
 
-if ($request.url.includes("6.16huixuan.com/api/UserAmount/index")) {
+if (req_url.includes("6.16huixuan.com/api/UserAmount/index")) {
     console.log('16会选 开始获取');
 
     // ========== 1. 从 Cookie 中提取 PHPSESSID ==========
-    const cookie = $request.headers["Cookie"] || $request.headers["cookie"] || "";
-    console.log("原始Cookie：" + cookie);
-
+    const cookie = req_headers["Cookie"] || req_headers["cookie"] || "";
     const match = cookie.match(/PHPSESSID=([^;]+)/);
-    const token = match ? match[0] : "";  // 结果如 "PHPSESSID=a842fc8bddb1e580785fb95c75eee70e"
-    console.log("提取到token：" + token);
+    const token = match ? match[0] : "";
+    console.log("获取到token：" + token);
 
     if (token) {
-        // 圈X 使用 #key 语法写入持久化存储
-        $prefs.setValueForKey(token, 'pdx_sl_token');
-        $notification.post('16会选token 获取成功✅', '', token);
+        $.write(token, '#pdx_sl_token');
+        $.notify('16会选token 获取成功✅', '', token);
     } else {
-        console.log("❌ Cookie中未找到PHPSESSID");
+        console.log("获取的token为空");
     }
 
     // ========== 2. 获取 Request Payload 中的 id ==========
     try {
-        const body = $request.body;
-        if (body) {
-            const payload = JSON.parse(body);
+        if (req_body) {
+            const payload = JSON.parse(req_body);
             const id = payload.id;
 
-            if (id !== undefined) {
+            if (id !== undefined && id !== null) {
                 console.log("获取到id：" + id);
-                $prefs.setValueForKey(String(id), 'pdx_sl_id');
-                $notification.post('16会选id 获取成功✅', '', String(id));
+                $.write(String(id), '#pdx_sl_id');
+                $.notify('16会选id 获取成功✅', '', String(id));
             } else {
-                console.log("Payload中未找到id字段，完整内容：" + body);
+                console.log("Payload中未找到id字段，完整内容：" + req_body);
             }
         } else {
-            console.log("⚠️ $request.body为空");
+            console.log("⚠️ req_body为空，该请求可能没有Request Payload");
         }
     } catch (e) {
-        console.log("❌ 解析Payload失败：" + e.message);
+        console.log("❌ 解析Payload失败：" + e.message + " | 原始body：" + req_body);
     }
 }
 /**
