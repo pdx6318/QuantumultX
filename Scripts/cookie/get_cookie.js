@@ -38,50 +38,50 @@ function getCookieORToken() {
  * hostname = 6.16huixuan.com
  */
 
-if (req_url.includes("6.16huixuan.com/api/UserAmount/index")) {
-    console.log('✅ 16惠选 URL匹配成功');
+/*
+ * 16惠选 - 获取 PHPSESSID 及用户ID
+ * hostname = 6.16huixuan.com
+ */
+
+const url = $request.url;
+const headers = $request.headers;
+const body = $request.body;
+
+console.log('body类型: ' + typeof body);
+console.log('body内容: ' + String(body).substring(0, 200));
+
+if (url.includes("6.16huixuan.com/api/UserAmount/index")) {
 
     // 1. 提取 PHPSESSID
-    const cookie = req_headers["cookie"] || req_headers["Cookie"] || "";
+    const cookie = headers["Cookie"] || headers["cookie"] || "";
     const sidMatch = cookie.match(/PHPSESSID=([^;]+)/);
     const phpsessid = sidMatch ? sidMatch[1] : "";
 
     if (phpsessid) {
         console.log('✅ PHPSESSID: ' + phpsessid);
-        $.write(phpsessid, '#pdx_16hx_phpsessid');
+        $prefs.setValueForKey(phpsessid, 'pdx_16hx_phpsessid');
     } else {
         console.log('❌ 未找到 PHPSESSID');
     }
 
-    // 2. 直接从 payload 对象取 ID
-    const userId = payload?.id;
+    // 2. 从请求体提取 ID
+    try {
+        const data = JSON.parse(body);
+        const userId = data.id;
 
-    if (userId) {
-        console.log('✅ 用户ID: ' + userId);
-        $.write(String(userId), '#pdx_16hx_user_id');
-        $.notify('16惠选信息获取成功 ✅', 'PHPSESSID: ' + phpsessid, '用户ID: ' + userId);
-    } else {
-        console.log('❌ payload.id 为空, payload: ' + JSON.stringify(payload));
+        if (userId) {
+            console.log('✅ 用户ID: ' + userId);
+            $prefs.setValueForKey(String(userId), 'pdx_16hx_user_id');
+            $notify('16惠选 ✅', 'PHPSESSID: ' + phpsessid, '用户ID: ' + userId);
+        } else {
+            console.log('❌ body 中无 id 字段, keys: ' + Object.keys(data));
+        }
+    } catch (e) {
+        console.log('❌ 解析失败: ' + e.message);
     }
 }
 
-  /**
-   * VIP 获取cookie
-   *
-   * @url http://myy2.com/h5/13/userCenter
-   * @keyword pdx_vip_cookie 打开个人中心页面获取
-   */
-  if (req_url.includes("myy2.com/h5/13/userCenter")) {
-    console.log('VIP 开始');
-
-     cookieValue = req_headers["Cookie"];
-    const token = cookieValue;
-    console.log("获取到token：" + token);
-    
-    $.write(token, '#pdx_vip_token');
-    $.notify('VIPtoken 获取成功✅', '', token);
-  }
-}
+$done({});
 
 // 将数据字符串解析为对象
 function parseDataString(dataString) {
